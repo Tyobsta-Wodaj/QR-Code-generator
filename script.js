@@ -1,66 +1,44 @@
 const inputEl = document.getElementById("input")
-const generateEl = document.getElementById("generate")
-const image = document.getElementById("image")
-const download = document.getElementById("download")
-const thethree = document.getElementById("thethree")
-const savebtn = document.getElementById("save")
 const sizeEl = document.getElementById("size")
-const nametosave = document.getElementById("nametosave")
-const backbtn = document.getElementById("back")
-const inside = document.getElementById("inside")
+const generateEl = document.getElementById("generate")
+const qrcode = document.getElementById("qrcode")
+const download = document.getElementById("download")
+
+let qr;
 
 function generate(){
-    let qr = `https://api.qrserver.com/v1/create-qr-code/?&size=${size}x${size}&data=` + encodeURIComponent (inputEl.value)
-    image.src = qr
-}
-generateEl.addEventListener("click", ()=>{
-    let input = inputEl.value
+   let input = inputEl.value.trim()
+   let size = parseInt(sizeEl.value)
 
-        if(!input){
-        inputEl.classList.add("error")
-        setTimeout(() => {
-            inputEl.classList.remove("error")
-        }, 1000);
-    }else{
-        generate()
+    if(!input){
+        alert("Enter something!")
+    } else {
+        qrcode.innerHTML = ""
+
+        qr = new QRCode(qrcode, {
+            text: input,
+            width: size,
+            height: size
+        })
         download.style.display = "block"
-        generateEl.style.display = "none"
-    }  
-})
+    }
+}
+
+generateEl.addEventListener("click", generate)
 
 download.addEventListener("click", ()=>{
-    thethree.style.display = "block"
-    download.style.display = "none"
 
-})
-savebtn.addEventListener("click", async()=>{
-    let size = sizeEl.value || "150"
-    let name = nametosave.value.trim() || inputEl.value.trim()
-
-    let qr = `https://api.qrserver.com/v1/create-qr-code/?&size=${size}x${size}&data=` + encodeURIComponent(inputEl.value)
-
-    try{
-        let response = await fetch(qr)
-        let blob = await response.blob()
-        let link = document.createElement("a")
-        let blobURL = URL.createObjectURL(blob)
-        link.href = blobURL
-        link.download = name + ".png"
-        
-        link.click()
-        link.remove()
-
-        nametosave.value = ""
-        
-    }
-    catch{
-       alert("Failed to download QR code. Try again.")
-    }
+    const canvas = qrcode.querySelector("canvas")
     
+    if(!canvas){
+        alert("QR code not found")
+        return
+    }
+    const pngimage = canvas.toDataURL()
+
+    let link = document.createElement("a")
+    link.href = pngimage
+    link.download = "tyob.png"
+    link.click()
 })
-backbtn.addEventListener("click", ()=>{
     
-    inside.style.display = "none"
-    inputEl.value = ""
-    generateEl.style.display = "block"
-})
