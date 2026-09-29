@@ -13,7 +13,7 @@ A simple web application that generates QR codes from user-provided text or link
 
 HTML · CSS · JavaScript
 
-🌐 **Live Website:** [https://your-portfolio.netlify.app](https://qr-code-generator-tyob.vercel.app/)
+🌐 **Live Website:** (https://qr-code-generator-tyob.vercel.app/)
 
 ## Author
 
