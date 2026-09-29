@@ -2,10 +2,6 @@
 
 A simple web application that generates QR codes from user-provided text or links.
 
-## Preview
-
-![QR-Code-generator](./qr-Code-screenshot.png)
-
 ## Features
 
 - Generate QR codes instantly
